@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  AVCamVideoTest
+
+  Created by 石川大輔 on 2021/05/06.
+  
+*/
+"hello" = "こんにちは";
+"AVCam doesn't have permission to use the camera, please change privacy settings" = "AVCamVideoTestにはカメラを使用する権限がありません。プライバシー設定を変更してください";
+"OK" = "了解";
+"Settings" = "設定";
+"Unable to capture media" = "カメラを起動できません";
