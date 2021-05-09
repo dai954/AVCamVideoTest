@@ -54,7 +54,10 @@ class ViewController: UIViewController {
         sessionQueue.async {
             switch self.setupResult {
             case .success:
+//                self.addObservers()
                 self.session.startRunning()
+                self.isSessionRunning = self.session.isRunning
+                
             case .notAuthorized:
                 DispatchQueue.main.async {
                     let changePrivacySetting = "AVCamVideoTest doesn't have permission to use the camera, please change privacy settings"
@@ -98,7 +101,7 @@ class ViewController: UIViewController {
     }
     
     private let session = AVCaptureSession()
-    
+    private var isSessionRunning = false
     // Communicate with the session and other session objects on this queue.
     private let sessionQueue = DispatchQueue(label: "session queue")
     private var setupResult: SessionSetupResult = .success
@@ -130,7 +133,6 @@ class ViewController: UIViewController {
                 defaultVideoDevice = dualCameraDevice
             } else if let backCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
                 defaultVideoDevice = backCameraDevice
-                defaultVideoDevice = nil
             }
             guard let videoDevice = defaultVideoDevice else {
                 print("Default video device is unavailable")
@@ -190,5 +192,51 @@ class ViewController: UIViewController {
     
     private var movieFileOutput: AVCaptureMovieFileOutput?
     
+    
+    
+    
+    //MARK: - KVO and Notifications
+//    private var keyValueObservations = [NSKeyValueObservation]()
+//
+//    private func addObservers() {
+//        let systemPressureStateObservation = observe(\.videoDeviceInput.device.systemPressureState, options: .new) { (_, change) in
+//            guard let systemPressureState = change.newValue else { return }
+//            self.setRecommendedFrameRateRangeForPressureState(systemPressureState: systemPressureState)
+//        }
+//        keyValueObservations.append(systemPressureStateObservation)
+//
+//        NotificationCenter.default.addObserver(self, selector: #selector(sessionRuntimeError), name: .AVCaptureSessionRuntimeError, object: session)
+//
+//    }
+//
+//
+//
+//
+//    private func setRecommendedFrameRateRangeForPressureState(systemPressureState: AVCaptureDevice.SystemPressureState) {
+//        let pressureLevel = systemPressureState.level
+//        if pressureLevel == .shutdown {
+//            print("Session stopped running due to shutdown system pressure level.")
+//        }
+//    }
+//
+//
+//    @objc func sessionRuntimeError(notification: NSNotification) {
+//        guard let error = notification.userInfo?[AVCaptureSessionErrorKey] as? AVError else { return }
+//
+//        print("Capture session runtime error: \(error)")
+//
+//        // If media services were reset, and the last start succeeded, restart the session.
+//        if error.code == .mediaServicesWereReset {
+//            sessionQueue.async {
+//                if self.isSessionRunning {
+//                    self.session.startRunning()
+//                    self.isSessionRunning = self.session.isRunning
+//                }
+//            }
+//
+//    }
+//
+//
+//}
 }
 
